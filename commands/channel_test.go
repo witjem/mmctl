@@ -669,7 +669,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, "Unable to find team '"+teamID+"'")
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 1)
 		s.Require().Equal(printer.GetErrorLines()[0], "Unable to find team '"+teamID+"'")
@@ -1045,7 +1045,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, mockError.Error())
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 1)
 		s.Require().Equal(printer.GetErrorLines()[0], fmt.Sprintf("unable to list public channels for %q: %s", args[0], mockError.Error()))
@@ -1093,7 +1093,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, mockError.Error())
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 1)
 		s.Require().Equal(printer.GetErrorLines()[0], fmt.Sprintf("unable to list archived channels for %q: %s", args[0], mockError.Error()))
@@ -1142,7 +1142,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, mockError.Error())
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 1)
 		s.Require().Equal(printer.GetErrorLines()[0], fmt.Sprintf("unable to list private channels for %q: %s", args[0], mockError.Error()))
@@ -1193,7 +1193,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, mockError.Error())
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 1)
 		s.Require().Equal(printer.GetErrorLines()[0], fmt.Sprintf("unable to list private channels for %q: %s", args[0], mockError.Error()))
@@ -1245,7 +1245,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, mockError.Error())
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 3)
 		s.Require().Equal(printer.GetErrorLines()[0], fmt.Sprintf("unable to list public channels for %q: %s", args[0], mockError.Error()))
@@ -1334,7 +1334,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, "Unable to find team '"+teamID2+"'")
 		s.Len(printer.GetErrorLines(), 1)
 		s.Require().Equal(printer.GetErrorLines()[0], "Unable to find team '"+teamID2+"'")
 		s.Len(printer.GetLines(), 4)
@@ -1446,7 +1446,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, mockError.Error())
 		s.Len(printer.GetErrorLines(), 3)
 		s.Len(printer.GetLines(), 4)
 		s.Require().Equal(printer.GetLines()[0], publicChannel1)
@@ -1487,7 +1487,8 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 
 		err := listChannelsCmdF(s.client, cmd, args)
 
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, "Unable to find team '"+team1ID+"'")
+		s.Require().ErrorContains(err, "Unable to find team '"+team2ID+"'")
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 2)
 		s.Require().Equal(printer.GetErrorLines()[0], "Unable to find team '"+team1ID+"'")
@@ -1632,7 +1633,7 @@ func (s *MmctlUnitTestSuite) TestListChannelsCmd() {
 		arg := "\"test/../hello?\"channel-test"
 
 		err := listChannelsCmdF(s.client, &cobra.Command{}, []string{arg})
-		s.Require().Nil(err)
+		s.Require().ErrorContains(err, "Unable to find team '\"test/../hello?\"channel-test'")
 		s.Require().Equal("Unable to find team '\"test/../hello?\"channel-test'", printer.GetErrorLines()[0])
 	})
 }
